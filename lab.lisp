@@ -1,5 +1,5 @@
 #|
-test:
+lab:
 - Author: KirilliriK
 - Date: 2023-09-18
 |#
