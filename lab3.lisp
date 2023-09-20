@@ -4,39 +4,38 @@ lab3:
 - Date: 2023-09-20
 |#
 
-(defun sedj (s size lst)
-    (cond
+(defun calc(s)
+    (if (= (mod s 2) 0)
         (
-            (and
-                (> (length lst) 0)
-                (>
-                    (* 3 (elt lst s))
-                    size
-                )
-            )
-            '()
+            + (- (* 9 (expt 2 s)) (* 9 (expt 2 (floor s 2)))) 1
         )
-        (T
-            (
-                if (= (mod (+ s 1) 2) 0)
-                    (append
-                        (sedj (+ s 1) size lst)
-                        (list
-                            + (- (* 9 (expt 2 s)) (* 9 (expt 2 (floor s 2)))) 1
-                        )
-                    )
-                    (append
-                        (sedj (+ s 1) size lst)
-                        (list
-                            + (- (* 8 (expt 2 s)) (* 6 (expt 2 (floor (+ s 1) 2)))) 1
-                        )
-                    )
-            )
+        (
+            + (- (* 8 (expt 2 s)) (* 6 (expt 2 (floor (+ s 1) 2)))) 1
         )
     )
 )
 
+(defun sedj (s size last)
+    (cond
+        (
+            (>
+                (* 3 last)
+                size
+            )
+            '()
+        )
+        (T
+            (append
+                (sedj (+ s 1) size (calc s))
+                (list (calc s))
+            )
+        )
+    )
+)
+(terpri)
+(write-string "RS ")
+(write (calc 2))
 (terpri)
 (write-string "Result ")
-(write (sedj 0 16 '()))
+(write (sedj 0 16 0))
 (terpri)
