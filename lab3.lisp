@@ -6,11 +6,10 @@ lab3:
 
 (defun sedj (s size lst)
     (cond
-        ((= s 10) '())
         (
             (and
                 (> (length lst) 0)
-                (<
+                (>
                     (* 3 (elt lst s))
                     size
                 )
@@ -21,15 +20,15 @@ lab3:
             (
                 if (= (mod (+ s 1) 2) 0)
                     (append
-                        (list (sedj (+ s 1) size lst))
-                        (
-                            + (- (* 9 (expt 2 s))) (* 9 (expt 2 (/ s 2))) 1
+                        (sedj (+ s 1) size lst)
+                        (list
+                            + (- (* 9 (expt 2 s)) (* 9 (expt 2 (floor s 2)))) 1
                         )
                     )
                     (append
-                        (list (sedj (+ s 1) size lst))
-                        (
-                            + (- (* 8 (expt 2 s))) (* 6 (expt 2 (/ (+ s 1) 2))) 1
+                        (sedj (+ s 1) size lst)
+                        (list
+                            + (- (* 8 (expt 2 s)) (* 6 (expt 2 (floor (+ s 1) 2)))) 1
                         )
                     )
             )
