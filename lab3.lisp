@@ -17,24 +17,16 @@ lab3:
 
 (defun sedj (s size last)
     (cond
-        (
-            (>
-                (* 3 last)
-                size
-            )
-            '()
-        )
+        ((> (* 3 last) size) '() )
         (T
             (append
-                (sedj (+ s 1) size (calc s))
                 (list (calc s))
+                (sedj (+ s 1) size (calc s))
             )
         )
     )
 )
-(terpri)
-(write-string "RS ")
-(write (calc 2))
+
 (terpri)
 (write-string "Result ")
 (write (sedj 0 16 0))
