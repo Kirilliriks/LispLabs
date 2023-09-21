@@ -4,9 +4,8 @@ lab3:
 - Date: 2023-09-20
 |#
 
-(defun get_list_element (lst n)
+(defun get_list_element (lst n) #| Функция для получения элемента из списка по индексу |#
     (cond
-        ((null lst) '(12))
         ((= n 0) (car lst))
         (T
             (get_list_element (cdr lst) (- n 1))
@@ -14,9 +13,8 @@ lab3:
     )
 )
 
-(defun replace_list_element (lst n elem)
+(defun replace_list_element (lst n elem)  #| Функция для замены элемента из списка по индексу |#
     (cond
-        ((null lst) '(10))
         ((= n 0) (cons elem (cdr lst)))
         (T
             (cons (car lst) (replace_list_element (cdr lst) (- n 1) elem))
@@ -25,7 +23,7 @@ lab3:
 )
 
 #| Задача 1 |#
-(defun calc(s)
+(defun calc(s)                #| Функция для вычисления шага сортировки |#
     (if (= (mod s 2) 0)
         (
             + (- (* 9 (expt 2 s)) (* 9 (expt 2 (floor s 2)))) 1
@@ -36,42 +34,35 @@ lab3:
     )
 )
 
-(defun sedjS (s size last)
+(defun sedjS (s size last) #| Функция для вычисления коэффициента S|#
     (cond
-        ((>= (* 3 last) size)
-            (if (> s 0)
-                (- s 2)
-                0
-            )
-        )
+        ((>= (* 3 last) size) (if (> s 0) (- s 2) 0 ) )
         (T
             (sedjS (+ s 1) size (calc s))
         )
     )
 )
 
-(defun sedj (s size last)
+(defun sedj (s size last) #| Функция для вычисления шагов сортировки |#
     (cond
         ((>= (* 3 last) size) '())
         (T
-            (append
-                (list (calc s))
-                (sedj (+ s 1) size (calc s))
+            (append (list (calc s)) (sedj (+ s 1) size (calc s))
             )
         )
     )
 )
 
-(defun for_last (lst j tmp inc)
+(defun for_last (lst j tmp inc)  #| Функция для сортировки вставками |#
     (cond
-        ((and (< j 0) (<= (get_list_element lst j) tmp)) (replace_list_element lst (+ j inc) tmp))
+        ((or (< j 0) (<= (get_list_element lst j) tmp)) (replace_list_element lst (+ j inc) tmp))
         (T
             (for_last (replace_list_element lst (+ j inc) (get_list_element lst j)) (- j inc) tmp inc)
         )
     )
 )
 
-(defun for_first (lst size i inc)
+(defun for_first (lst size i inc) #| Функция перебора с инкрементами |#
     (cond
         ((>= i size) lst)
         (T
@@ -80,7 +71,7 @@ lab3:
     )
 )
 
-(defun shell (lst size s slst)
+(defun shell (lst size s slst) #| Функция которая инициирует сортировку алгоритмом Шелла |#
     (cond
         ((< s 0) lst)
         (T
@@ -90,10 +81,9 @@ lab3:
 )
 
 (terpri)
-(write-string "Result ")
-(write (sedj 0 16 0))
-(write-string " ")
-(write (sedjS 0 16 0))
+(write-string "Input ")
+(write '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9))
 (terpri)
+(write-string "Result ")
 (write (shell '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9) 16 (sedjS 0 16 0) (sedj 0 16 0)))
 (terpri)
