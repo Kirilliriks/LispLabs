@@ -189,10 +189,9 @@ lab3:
         ((null lst_d) '())
         (T
             (append
-                (list (if (atom head)
-                          head
-                          (init_permute head)
-                      )
+                (if (atom head)
+                    (list head)
+                    head
                 )
                 (permutate lst_d (car lst_d) (cdr lst_d) 1)
                 (permutate lst (get_list_element lst n) (remove_list_element lst n) (+ n 1))
@@ -201,8 +200,42 @@ lab3:
     )
 )
 
+(defun permutate_test (lst main_head head lst_d n)
+    (cond
+        ((null lst) '())
+        ((null head) '())
+        ((null lst_d) '())
+        (T
+            (append
+                (if (atom head)
+                    (list head)
+                    head
+                )
+                (permutate lst_d (car lst_d) (cdr lst_d) 1)
+                (permutate lst (get_list_element lst n) (remove_list_element lst n) (+ n 1))
+            )
+        )
+    )
+)
+
+(defun permutate_first (result lst head lst_d n)
+    (cond
+        ((null lst) result)
+        ((null head) result)
+        (T
+            (permutate_first
+                (append
+                    result
+                    (list (permutate lst_d (car lst_d) (cdr lst_d) 1))
+                )
+                lst (get_list_element lst n) (remove_list_element lst n) (+ n 1)
+            )
+        )
+    )
+)
+
 (defun init_permute (lst)
-  (permutate lst (car lst) (cdr lst) 1)
+  (permutate_first (list) lst (car lst) (cdr lst) 1)
 )
 
 (terpri)
@@ -212,5 +245,5 @@ lab3:
 (write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
 (terpri)
 (write-string "Result ")
-(write (init_permute '((a b) (c d))))
+(write (init_permute '(a b c d)))
 (terpri)
