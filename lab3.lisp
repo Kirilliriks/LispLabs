@@ -81,9 +81,65 @@ lab3:
 )
 
 (terpri)
+(write-string "Task one ")
+(terpri)
 (write-string "Input ")
 (write '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9))
 (terpri)
 (write-string "Result ")
 (write (shell '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9) 16 (sedjS 0 16 0) (sedj 0 16 0)))
+(terpri)
+
+#| Задача 2 |#
+(defun qsort_left (lst coeff) #| Функция возвращает список с элементами которые меньше коэффициента |#
+    (cond
+        ((null lst) '())
+        (T
+            (if (>= (car lst) coeff)
+                (qsort_left (cdr lst) coeff)
+                (append
+                    (list (car lst))
+                    (qsort_left (cdr lst) coeff)
+                )
+            )
+        )
+    )
+)
+
+(defun qsort_right (lst coeff) #| Функция возвращает список с элементами которые больше либо равны коэффициенту |#
+    (cond
+        ((null lst) '())
+        (T
+            (if (< (car lst) coeff)
+                (qsort_right (cdr lst) coeff)
+                (append
+                    (list (car lst))
+                    (qsort_right (cdr lst) coeff)
+                )
+            )
+        )
+    )
+)
+
+(defun qsort (lst) #| Функция рекурсивной сортировки методом Хоара, за коэффициент изначально берётся голова списка|#
+    (cond
+        ((null lst) '())
+        (T
+            (append
+                (qsort (qsort_left (cdr lst) (car lst)))
+                (list (car lst))
+                (qsort (qsort_right (cdr lst) (car lst)))
+           )
+        )
+    )
+)
+
+(terpri)
+(write-string "Task two ")
+(terpri)
+(write-string "Input ")
+(write '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9))
+(terpri)
+(write-string "Result ")
+(write (qsort '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)))
 (terpri)
