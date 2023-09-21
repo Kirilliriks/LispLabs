@@ -129,7 +129,7 @@ lab3:
                 (qsort (qsort_left (cdr lst) (car lst)))
                 (list (car lst))
                 (qsort (qsort_right (cdr lst) (car lst)))
-           )
+            )
         )
     )
 )
@@ -142,4 +142,30 @@ lab3:
 (terpri)
 (write-string "Result ")
 (write (qsort '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)))
+(terpri)
+
+#| Задача 3 |#
+
+(defun merge_lists (frt sec) #| Функция рекурсивного объединения двух отсортированных списков |#
+    (cond
+        ((null frt) sec)
+        ((null sec) frt)
+        (
+            (< (car frt) (car sec))
+            (cons (car frt) (merge_lists (cdr frt) sec))
+        )
+        (T
+            (cons (car sec) (merge_lists frt (cdr sec)))
+        )
+    )
+)
+
+(terpri)
+(write-string "Task three ")
+(terpri)
+(write-string "Input ")
+(write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
+(terpri)
+(write-string "Result ")
+(write (insert-ordered '(-5 0 1 3 5 7 19) '(-11 0 1 2 3 4 6 8)))
 (terpri)
