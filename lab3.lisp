@@ -22,6 +22,16 @@ lab3:
     )
 )
 
+(defun remove_list_element (lst n)  #| Функция для удаления элемента из списка по индексу |#
+    (cond
+        ((null lst) '())
+        ((= n 0) (cdr lst))
+        (T
+            (cons (car lst) (remove_list_element (cdr lst) (- n 1)))
+        )
+    )
+)
+
 #| Задача 1 |#
 (defun calc(s)                #| Функция для вычисления шага сортировки |#
     (if (= (mod s 2) 0)
@@ -167,5 +177,40 @@ lab3:
 (write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
 (terpri)
 (write-string "Result ")
-(write (insert-ordered '(-5 0 1 3 5 7 19) '(-11 0 1 2 3 4 6 8)))
+(write (merge_lists '(-5 0 1 3 5 7 19) '(-11 0 1 2 3 4 6 8)))
+(terpri)
+
+#| Задача 4 |#
+
+(defun permutate (lst head lst_d n)
+    (cond
+        ((null lst) '())
+        ((null head) '())
+        ((null lst_d) '())
+        (T
+            (append
+                (list (if (atom head)
+                          head
+                          (init_permute head)
+                      )
+                )
+                (permutate lst_d (car lst_d) (cdr lst_d) 1)
+                (permutate lst (get_list_element lst n) (remove_list_element lst n) (+ n 1))
+            )
+        )
+    )
+)
+
+(defun init_permute (lst)
+  (permutate lst (car lst) (cdr lst) 1)
+)
+
+(terpri)
+(write-string "Task four ")
+(terpri)
+(write-string "Input ")
+(write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
+(terpri)
+(write-string "Result ")
+(write (init_permute '((a b) (c d))))
 (terpri)
