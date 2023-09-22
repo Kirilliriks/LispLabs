@@ -203,15 +203,21 @@ lab3:
                                      (mapcar #'(lambda (seq)
                                                  (cons elem seq))
                                              result)
-                                     (list (list elem)))
+                                     (list (list elem))
+                                 )
                                  (if result
                                      (apply #'append
-                                            (mapcar #'(lambda (seq)
+                                            (mapcar #' (lambda (seq)
                                                         (mapcar #'(lambda (e)
                                                                     (cons e (cons seq nil)))
-                                                                elem))
-                                                    result))
-                                     elem))
+                                                                elem)
+                                                        )
+                                                    result
+                                            )
+                                     )
+                                     elem
+                                 )
+                             )
                          )
                          (mapcar #'permutationVH lst)
                          (mapcar #'permutationVH (mapcar #'(lambda (e) (remove e lst)) lst))
