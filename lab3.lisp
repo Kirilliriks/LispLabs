@@ -191,7 +191,7 @@ lab3:
 
 #| Задача 4 |#
 
-#| Адоптированный алгоритм пользователя VH (https://www.cyberforum.ru/lisp/thread393117.html)|#
+#| Адаптированный алгоритм пользователя VH (https://www.cyberforum.ru/lisp/thread393117.html)|#
 (defun permutationVH(lst)
     (if lst
         (if (atom lst)
