@@ -32,6 +32,18 @@ lab3:
     )
 )
 
+(defun cons_list(element lst) #| Функция которая объединяет один элемент с другим |#
+    (cond
+        ((null lst) '())
+        (T
+            (cons
+                (cons element (car lst))
+                (cons_list element (cdr lst))
+            )
+        )
+    )
+)
+
 #| Задача 1 |#
 (defun calc(s)                #| Функция для вычисления шага сортировки |#
     (if (= (mod s 2) 0)
@@ -182,60 +194,24 @@ lab3:
 
 #| Задача 4 |#
 
-(defun permutate (lst head lst_d n)
+(defun permut (lst remain)
     (cond
-        ((null lst) '())
-        ((null head) '())
-        ((null lst_d) '())
+        ((null remain) nil)
+        ((null (cdr lst)) (list lst))
         (T
             (append
-                (if (atom head)
-                    (list head)
-                    head
+                (cons_list
+                    (car lst)
+                    (permut (cdr lst) (cdr lst))
                 )
-                (permutate lst_d (car lst_d) (cdr lst_d) 1)
-                (permutate lst (get_list_element lst n) (remove_list_element lst n) (+ n 1))
-            )
-        )
-    )
-)
-
-(defun permutate_test (lst main_head head lst_d n)
-    (cond
-        ((null lst) '())
-        ((null head) '())
-        ((null lst_d) '())
-        (T
-            (append
-                (if (atom head)
-                    (list head)
-                    head
-                )
-                (permutate lst_d (car lst_d) (cdr lst_d) 1)
-                (permutate lst (get_list_element lst n) (remove_list_element lst n) (+ n 1))
-            )
-        )
-    )
-)
-
-(defun permutate_first (result lst head lst_d n)
-    (cond
-        ((null lst) result)
-        ((null head) result)
-        (T
-            (permutate_first
-                (append
-                    result
-                    (list (permutate lst (car lst) (cdr lst) 1))
-                )
-                lst (get_list_element lst n) (remove_list_element lst n) (+ n 1)
+                (permut (append (cdr lst) (list (car lst))) (cdr remain))
             )
         )
     )
 )
 
 (defun init_permute (lst)
-  (permutate_first (list) lst (car lst) (cdr lst) 1)
+    (permut lst lst)
 )
 
 (terpri)
@@ -245,5 +221,5 @@ lab3:
 (write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
 (terpri)
 (write-string "Result ")
-(write (init_permute '(a b c)))
+(write (init_permute '((a b) (c d))))
 (terpri)
