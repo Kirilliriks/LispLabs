@@ -58,7 +58,7 @@ lab3:
 
 (defun sedjS (s size last) #| Функция для вычисления коэффициента S|#
     (cond
-        ((>= (* 3 last) size) (if (> s 0) (- s 2) 0 ) )
+        ((>= last size) (if (> s 0) (- s 2) 0 ) )
         (T
             (sedjS (+ s 1) size (calc s))
         )
@@ -67,7 +67,7 @@ lab3:
 
 (defun sedj (s size last) #| Функция для вычисления шагов сортировки |#
     (cond
-        ((>= (* 3 last) size) '())
+        ((>= last size) '())
         (T
             (append (list (calc s)) (sedj (+ s 1) size (calc s))
             )
@@ -102,13 +102,17 @@ lab3:
     )
 )
 
+(defun init_shell(lst)
+    (shell lst (length lst) (sedjS 0 (length lst) 0) (sedj 0 (length lst) 0))
+)
+
 (terpri)
 (write-string "Task one ")
 (terpri)
 (write-string "Input (12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)")
 (terpri)
 (write-string "Result ")
-(write (shell '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9) 16 (sedjS 0 16 0) (sedj 0 16 0)))
+(write (init_shell '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)))
 (terpri)
 
 #| Задача 2 |#
