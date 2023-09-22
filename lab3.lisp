@@ -105,8 +105,7 @@ lab3:
 (terpri)
 (write-string "Task one ")
 (terpri)
-(write-string "Input ")
-(write '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9))
+(write-string "Input (12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)")
 (terpri)
 (write-string "Result ")
 (write (shell '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9) 16 (sedjS 0 16 0) (sedj 0 16 0)))
@@ -159,8 +158,7 @@ lab3:
 (terpri)
 (write-string "Task two ")
 (terpri)
-(write-string "Input ")
-(write '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9))
+(write-string "Input (12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)")
 (terpri)
 (write-string "Result ")
 (write (qsort '(12 8 14 6 4 9 1 8 13 5 11 3 18 3 10 9)))
@@ -185,8 +183,7 @@ lab3:
 (terpri)
 (write-string "Task three ")
 (terpri)
-(write-string "Input ")
-(write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
+(write-string "Input (-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
 (terpri)
 (write-string "Result ")
 (write (merge_lists '(-5 0 1 3 5 7 19) '(-11 0 1 2 3 4 6 8)))
@@ -194,32 +191,41 @@ lab3:
 
 #| Задача 4 |#
 
-(defun permut (lst remain)
-    (cond
-        ((null remain) nil)
-        ((null (cdr lst)) (list lst))
-        (T
-            (append
-                (cons_list
-                    (car lst)
-                    (permut (cdr lst) (cdr lst))
+#| Адоптированный алгоритм пользователя VH (https://www.cyberforum.ru/lisp/thread393117.html)|#
+(defun permutationVH(lst)
+    (if lst
+        (if (atom lst)
+            lst
+            (apply #'append
+                 (mapcar #'(lambda (elem result)
+                             (if (atom elem)
+                                 (if result
+                                     (mapcar #'(lambda (seq)
+                                                 (cons elem seq))
+                                             result)
+                                     (list (list elem)))
+                                 (if result
+                                     (apply #'append
+                                            (mapcar #'(lambda (seq)
+                                                        (mapcar #'(lambda (e)
+                                                                    (cons e (cons seq nil)))
+                                                                elem))
+                                                    result))
+                                     elem))
+                         )
+                         (mapcar #'permutationVH lst)
+                         (mapcar #'permutationVH (mapcar #'(lambda (e) (remove e lst)) lst))
                 )
-                (permut (append (cdr lst) (list (car lst))) (cdr remain))
             )
         )
     )
 )
 
-(defun init_permute (lst)
-    (permut lst lst)
-)
-
 (terpri)
 (write-string "Task four ")
 (terpri)
-(write-string "Input ")
-(write-string "(-5 0 1 3 5 7 19) (-11 0 1 2 3 4 6 8)")
+(write-string "Input ((A B) (C D))")
 (terpri)
 (write-string "Result ")
-(write (init_permute '((a b) (c d))))
+(write (permutationVH '((A B) (C D))))
 (terpri)
