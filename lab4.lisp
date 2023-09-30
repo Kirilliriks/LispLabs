@@ -7,11 +7,11 @@ lab4:
 #| Задача 1 |#
 (defun calculate_factorial(n r)
     (
-        (lambda (n r)
+        (lambda (num rr)
             (cond
-                    ((= n 0) r)
+                    ((= num 0) rr)
                     (T
-                        (calculate_factorial (- n 1) (* r n))
+                        (calculate_factorial (- num 1) (* rr num))
                     )
             )
         )
