@@ -58,7 +58,7 @@ lab4:
 )
 
 (defun make_product (m1 m2)
-    (cond 
+    (cond
             ((or (is_number_and_equal m1 0) (is_number_and_equal m2 0)) 0)
             ((is_number_and_equal m1 1) m2)
             ((is_number_and_equal m2 1) m1)
@@ -72,7 +72,7 @@ lab4:
 )
 
 (defun make_sum (a1 a2)
-    (cond 
+    (cond
         ((is_number_and_equal a1 0) a2)
         ((is_number_and_equal a2 0) a1)
         ((and (numberp a1) (numberp a2)) (+ a1 a2))
@@ -85,7 +85,7 @@ lab4:
 )
 
 (defun deriv (exp var)
-    (cond 
+    (cond
         ((numberp exp) 0)
         ((is_variable exp) (if (variable_is_same exp var) 1 0))
         ((is_sum exp) (make_sum (deriv (cadr exp) var) (deriv (caddr exp) var)))
@@ -223,8 +223,8 @@ lab4:
 (terpri)
 (write-string "Task five ")
 (terpri)
-(write-string "Input (cons (car (cdr '(e r t w))) (cons (cdr '(g h 6)) '()))")
+(write-string "Input (append_list (list e r t w) (list g h 6))")
 (terpri)
 (write-string "Result ")
-(write (interpret '(append_list '(e r t w) '(g h 6))))
+(write (interpret '(append_list (list e r t w) (list g h 6))))
 (terpri)
