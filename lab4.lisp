@@ -215,7 +215,6 @@ lab4:
 (terpri)
 
 #| Задача 5 |#
-
 (defun append_list (lst1 lst2) #| Функция для объединения списков |#
     (cond
         ((null lst2) lst1)
