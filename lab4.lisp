@@ -201,7 +201,7 @@ lab4:
 )
 
 (terpri)
-(write-string "Task five ")
+(write-string "Task four ")
 (terpri)
 (write-string "Input (cons (car (cdr '(e r t w))) (cons (cdr '(g h 6)) '()))")
 (terpri)
