@@ -168,3 +168,63 @@ lab4:
 (write-string "Result ")
 (write (algh '(1 ((2 3) 4) 5 6)))
 (terpri)
+
+#| Задача 4 |#
+(defun interpret (expr)
+    (cond
+        ((not (symbolp (car expr))) expr)
+        ((not (fboundp (car expr))) expr)
+        (T
+            (
+                (lambda (m n)
+                    (apply m n)
+                )
+                (car expr)
+                (arg_proc (cdr expr))
+            )
+        )
+    )
+)
+
+(defun arg_proc (lst)
+    (cond
+        ((null lst) nil)
+        ((atom (car lst)) (cons (car lst) (arg_proc (cdr lst))))
+        ((equal (symbol-name (caar lst)) "QUOTE") (cdar lst))
+        (T
+            (cons
+                (interpret (car lst))
+                (arg_proc (cdr lst))
+            )
+        )
+    )
+)
+
+(terpri)
+(write-string "Task five ")
+(terpri)
+(write-string "Input (cons (car (cdr '(e r t w))) (cons (cdr '(g h 6)) '()))")
+(terpri)
+(write-string "Result ")
+(write (interpret '(cons (car (cdr '(e r t w))) (cons (cdr '(g h 6)) '()))))
+(terpri)
+
+#| Задача 5 |#
+
+(defun append_list (lst1 lst2) #| Функция для объединения списков |#
+    (cond
+        ((null lst2) lst1)
+        (T
+            (append_list (append lst1 (list (car lst2))) (cdr lst2))
+        )
+    )
+)
+
+(terpri)
+(write-string "Task five ")
+(terpri)
+(write-string "Input (cons (car (cdr '(e r t w))) (cons (cdr '(g h 6)) '()))")
+(terpri)
+(write-string "Result ")
+(write (interpret '(append_list '(e r t w) '(g h 6))))
+(terpri)
