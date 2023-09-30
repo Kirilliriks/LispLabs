@@ -84,26 +84,31 @@ lab4:
     (and (listp x) (eq (car x) '+))
 )
 
-(defun deriv (exp var)
-    (cond
-        ((numberp exp) 0)
-        ((is_variable exp) (if (variable_is_same exp var) 1 0))
-        ((is_sum exp) (make_sum (deriv (cadr exp) var) (deriv (caddr exp) var)))
-        ((is_product exp)
-            (make_sum
-               (make_product (cadr exp) (deriv (caddr exp) var))
-               (make_product (deriv (cadr exp) var) (caddr exp))
+(defun deriv (ex va)
+    (
+      (lambda (exp var)
+        (cond
+            ((numberp exp) 0)
+            ((is_variable exp) (if (variable_is_same exp var) 1 0))
+            ((is_sum exp) (make_sum (deriv (cadr exp) var) (deriv (caddr exp) var)))
+            ((is_product exp)
+                (make_sum
+                   (make_product (cadr exp) (deriv (caddr exp) var))
+                   (make_product (deriv (cadr exp) var) (caddr exp))
+                )
             )
+            ((is_exponentiation exp)
+                 (make_product
+                      (make_product (caddr exp)
+                             (make_exponentiation (cadr exp) (- (caddr exp) 1))
+                      )
+                      (deriv  (cadr exp) var)
+                 )
+            )
+            (T (error "Неизвестный тип" exp))
         )
-        ((is_exponentiation exp)
-             (make_product
-                  (make_product (caddr exp)
-                         (make_exponentiation (cadr exp) (- (caddr exp) 1))
-                  )
-                  (deriv  (cadr exp) var)
-             )
         )
-        (T (error "Неизвестный тип" exp))
+        ex va
     )
 )
 
