@@ -103,7 +103,10 @@ lab3:
 )
 
 (defun init_shell(lst)
-    (shell lst (length lst) (sedjS 0 (length lst) 0) (sedj 0 (length lst) 0))
+    (cond
+      ((null lst) 'Empty)
+      (T (shell lst (length lst) (sedjS 0 (length lst) 0) (sedj 0 (length lst) 0)))
+    )
 )
 
 (terpri)
