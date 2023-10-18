@@ -134,6 +134,8 @@ lab5:
     )
 )
 
+(defun listToStr(lst) (format nil "~{~a~}" lst))
+
 #| Конец вспомогательных функций |#
 
 #| Задача 1 |#
@@ -151,6 +153,27 @@ lab5:
 (terpri)
 
 #| Задача 2 |#
+(defun contains(val lst)
+    (cond
+        ((null lst) Nil)
+        ((eq val (car lst)) t)
+        (t (contains val (cdr lst)))
+    )
+)
+
+(defun getTypeCh(ch)
+    (cond
+         ((contains ch (listFromStr "аоуиыэяюёе")) 3)
+         ((contains ch (listFromStr "мнлр")) 2)
+         ((contains ch (listFromStr "бвгджзйпфктшсхцч")) 1)
+         (t 0)
+    )
+)
+
+(defun isSoglas(char)
+    (find char '(а о у и ы э я ю ё е))
+)
+
 (defun slogSplitWord (word result)
     (let
         (
@@ -160,7 +183,7 @@ lab5:
         )
         (cond
             ((null word) result)
-            ((eq nextChar 'а) (slogSplitWord (cdr (cdr word)) (append result (list startChar nextChar '-))))
+            ((and (not (null nextNextChar)) (isSoglas nextChar)) (slogSplitWord (cdr (cdr word)) (append result (list startChar nextChar '-))))
             (T
                  (slogSplitWord (cdr word) (append result (list startChar)))
             )
@@ -171,10 +194,10 @@ lab5:
 (terpri)
 (write-string "Task two ")
 (terpri)
-(write-string "Input (i take book to my book shelf)")
+(write-string "Input здравствуйте")
 (terpri)
 (write-string "Result ")
-(write (slogSplitWord (listFromStr 'мама) '()))
+(write (listToStr (slogSplitWord (listFromStr 'здравствуйте) '())))
 (terpri)
 
 
