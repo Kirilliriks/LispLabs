@@ -153,25 +153,22 @@ lab5:
 (terpri)
 
 #| Задача 2 |#
-(defun contains(val lst)
-    (cond
-        ((null lst) Nil)
-        ((eq val (car lst)) t)
-        (t (contains val (cdr lst)))
-    )
-)
-
-(defun getTypeCh(ch)
-    (cond
-         ((contains ch (listFromStr "аоуиыэяюёе")) 3)
-         ((contains ch (listFromStr "мнлр")) 2)
-         ((contains ch (listFromStr "бвгджзйпфктшсхцч")) 1)
-         (t 0)
-    )
+(defun isGlas(char)
+    (find char '(а о у и ы э я ю ё е))
 )
 
 (defun isSoglas(char)
-    (find char '(а о у и ы э я ю ё е))
+    (find char '(м н л р б в г д ж з й п ф к т ш с х ц ч))
+)
+
+(defun countSoglas(word)
+    (cond
+        ((null word) 0)
+        ((isSoglas (car word)) (+ 1 (countSoglas (cdr word))))
+        (T
+             (countSoglas (cdr word))
+        )
+    )
 )
 
 (defun slogSplitWord (word result)
@@ -180,10 +177,14 @@ lab5:
             (startChar (car word))
             (nextChar (car (cdr word)))
             (nextNextChar (car (cdr (cdr word))))
+            (nextNextNextChar (car (cdr (cdr (cdr word)))))
         )
         (cond
             ((null word) result)
-            ((and (not (null nextNextChar)) (isSoglas nextChar)) (slogSplitWord (cdr (cdr word)) (append result (list startChar nextChar '-))))
+            ((and (not (null nextNextChar)) (isGlas nextChar) (isSoglas nextNextChar) (isSoglas nextNextNextChar))
+                (slogSplitWord (cdr (cdr (cdr (cdr word)))) (append result (list startChar nextChar nextNextChar '- nextNextNextChar)))
+            )
+            ((and (not (null nextNextChar)) (isGlas nextChar)) (slogSplitWord (cdr (cdr (cdr word))) (append result (list startChar nextChar '- nextNextChar))))
             (T
                  (slogSplitWord (cdr word) (append result (list startChar)))
             )
