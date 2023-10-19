@@ -220,10 +220,10 @@ lab5:
 (terpri)
 (write-string "Task two ")
 (terpri)
-(write-string "Input здравствуйте как ваши дела уважаемый это строка для проверки слогов")
+(write-string "Input здравствуйте как ваши дела это строка для проверки слогов")
 (terpri)
 (write-string "Result ")
-(write (slogSplitText '(здравствуйте как ваши дела уважаемый это строка для проверки слогов)))
+(write (slogSplitText '(здравствуйте как ваши дела это строка для проверки слогов)))
 (terpri)
 
 #| Задача 3 |#
