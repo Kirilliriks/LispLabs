@@ -161,17 +161,17 @@ lab5:
     (find char '(м н л р б в г д ж з й п ф к т ш с х ц ч))
 )
 
-(defun countSoglas(word)
+(defun countGlas(word)
     (cond
         ((null word) 0)
-        ((isSoglas (car word)) (+ 1 (countSoglas (cdr word))))
+        ((isGlas (car word)) (+ 1 (countGlas (cdr word))))
         (T
-             (countSoglas (cdr word))
+             (countGlas (cdr word))
         )
     )
 )
 
-(defun slogSplitWord (word result)
+(defun slogSplitWord (word &optional (result Nil))
     (let
         (
             (startChar (car word))
@@ -209,4 +209,44 @@ lab5:
 (write (slogSplitText '(здравствуйте как ваши дела уважаемый это строка для проверки слогов)))
 (terpri)
 
+#| Задача 3 |#
 
+(defun getSlogsFromWordExact(word &optional (slogResult Nil))
+	(let
+		(
+			(char (car word))
+			(nextChars (cdr word))
+		)
+		(cond
+			((null char) slogResult)
+			((eq char '-) (list slogResult (getSlogsFromWord nextChars)))
+			(T (getSlogsFromWordExact nextChars (append slogResult (list char))))
+		)
+    )
+)
+
+(defun getSlogsFromWord(word)
+    (getSlogsFromWordExact (slogSplitWord (listFromStr word)))
+)
+
+(defun swapSlogs(firstWord secondWord)
+	(let
+		(
+			(firstSlogs (getSlogsFromWord firstWord))
+			(secondSlogs (getSlogsFromWord secondWord))
+		)
+		(list 
+		    (listToStr (append (car secondSlogs) (nth 1 firstSlogs))) 
+            (listToStr (append (car firstSlogs) (nth 1 secondSlogs)))
+		)
+	)
+)
+
+(terpri)
+(write-string "Task three ")
+(terpri)
+(write-string "Input здравствуйте")
+(terpri)
+(write-string "Result ")
+(write (swapSlogs 'слово 'сплетня))
+(terpri)
