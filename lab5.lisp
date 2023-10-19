@@ -224,14 +224,13 @@ lab5:
 (terpri)
 (write-string "Task two ")
 (terpri)
-(write-string "Input здравствуйте как ваши дела уважаемый это строка для проверки слогов")
+(write-string "Input здравствуйте как ваши дела это строка для проверки слогов")
 (terpri)
 (write-string "Result ")
-(write (slogSplitText '(здравствуйте как ваши дела уважаемый это строка для проверки слогов)))
+(write (slogSplitText '(здравствуйте как ваши дела это строка для проверки слогов)))
 (terpri)
 
 #| Задача 3 |#
-
 (defun getSlogsFromWordExact(word &optional (slogResult Nil))
 	(let
 		(
@@ -280,4 +279,24 @@ lab5:
 (terpri)
 (write-string "Result ")
 (write (spletnya '(слово мама папа) 'сплетня))
+(terpri)
+
+#| Задача 4 |#
+(defun textIterating (text dictionary)
+    (mapcar (lambda (word) 
+		(if (string= (car dictionary) word) 
+			(listToStr (list (nth 2 dictionary)))
+			(listToStr (list word)))
+		) 
+		text
+    )
+)
+
+(terpri)
+(write-string "Task four ")
+(terpri)
+(write-string "Input (И днём и ночью кот знающий) (знающий magna учёный)")
+(terpri)
+(write-string "Result ")
+(write (textIterating '(И днём и ночью кот знающий) '(знающий magna учёный)))
 (terpri)
