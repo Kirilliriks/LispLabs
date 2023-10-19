@@ -143,13 +143,17 @@ lab5:
     (if (string= find word) temp word)
 )
 
+(defun wrap (str)
+    (mapcar (lambda (word) (if (string= 'book word) (listToStr '(cd)) (listToStr (list word)))) str)
+)
+
 (terpri)
 (write-string "Task one ")
 (terpri)
 (write-string "Input book, cd, (i take book to my book shelf)")
 (terpri)
 (write-string "Result ")
-(write (mapcar (lambda (word) (if (string= 'book word) 'cd word)) '(i take book to my book shelf)))
+(write (wrap '(i take book to my book shelf)))
 (terpri)
 
 #| Задача 2 |#
@@ -203,7 +207,7 @@ lab5:
 			((or (eq char 'ъ) (eq char 'й))
 				(slogSplitWord (cdr word) (append result (list char '-)) 0 (- slogs 1))
             )
-			(T 
+			(T
 				(slogSplitWord (cdr word) (append result (list '- char)) 0 (- slogs 1))
             )
         )
@@ -220,10 +224,10 @@ lab5:
 (terpri)
 (write-string "Task two ")
 (terpri)
-(write-string "Input здравствуйте как ваши дела это строка для проверки слогов")
+(write-string "Input здравствуйте как ваши дела уважаемый это строка для проверки слогов")
 (terpri)
 (write-string "Result ")
-(write (slogSplitText '(здравствуйте как ваши дела это строка для проверки слогов)))
+(write (slogSplitText '(здравствуйте как ваши дела уважаемый это строка для проверки слогов)))
 (terpri)
 
 #| Задача 3 |#
