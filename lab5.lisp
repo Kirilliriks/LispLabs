@@ -127,6 +127,7 @@ lab5:
         ((or (eq val 'Ё) (eq val #\Ё)) 'Ё)
     )
 )
+
 (defun listFromStr(str)
     (if (symbolp str)
         (listFromStr (string str))
