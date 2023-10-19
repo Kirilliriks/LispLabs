@@ -157,8 +157,21 @@ lab5:
     (find char '(а о у и ы э я ю ё е))
 )
 
-(defun isSoglas(char)
-    (find char '(м н л р б в г д ж з й п ф к т ш с х ц ч))
+(defun isSoglasFirst(char)
+    (find char '(м н л р))
+)
+
+(defun isSoglasSecond(char)
+    (find char '(б в г д ж з й п ф к т ш с х ц ч))
+)
+
+(defun getCharType(char)
+    (cond
+		((isGlas char) 3)
+        ((isSoglasFirst char) 2)
+        ((isSoglasSecond char) 1)
+        (T 0)
+    )
 )
 
 (defun countGlas(word)
@@ -166,28 +179,32 @@ lab5:
         ((null word) 0)
         ((isGlas (car word)) (+ 1 (countGlas (cdr word))))
         (T
-             (countGlas (cdr word))
+            (countGlas (cdr word))
         )
     )
 )
 
-(defun slogSplitWord (word &optional (result Nil))
+(defun slogSplitWord (word &optional (result Nil) (previousType 0) (slogs (countGlas word)))
     (let
         (
-            (startChar (car word))
+            (char (car word))
             (nextChar (car (cdr word)))
             (nextNextChar (car (cdr (cdr word))))
-            (nextNextNextChar (car (cdr (cdr (cdr word)))))
+			(charType (getCharType (car word)))
         )
         (cond
             ((null word) result)
-            ((and (null nextNextNextChar) (null result)) word)
-            ((and (not (null nextNextChar)) (isGlas nextChar) (isSoglas nextNextChar) (isSoglas nextNextNextChar))
-                (slogSplitWord (cdr (cdr (cdr (cdr word)))) (append result (list startChar nextChar nextNextChar '- nextNextNextChar)))
+			((and (= (getCharType nextChar) 2) (= (getCharType nextNextChar) 1))
+                (slogSplitWord (cdr (cdr (cdr word))) (append result (list char nextChar '- nextNextChar)) 0 (- slogs 1))
             )
-            ((and (not (null nextNextChar)) (isGlas nextChar)) (slogSplitWord (cdr (cdr (cdr word))) (append result (list startChar nextChar '- nextNextChar))))
-            (T
-                 (slogSplitWord (cdr word) (append result (list startChar)))
+			((or (= slogs 1) (and (<= previousType charType) (not (= previousType 3))))
+				(slogSplitWord (cdr word) (append result (list char)) charType slogs)
+            )
+			((or (eq char 'ъ) (eq char 'й))
+				(slogSplitWord (cdr word) (append result (list char '-)) 0 (- slogs 1))
+            )
+			(T 
+				(slogSplitWord (cdr word) (append result (list '- char)) 0 (- slogs 1))
             )
         )
     )
@@ -195,7 +212,7 @@ lab5:
 
 (defun slogSplitText (text)
     (cond
-        ((atom text) (listToStr (slogSplitWord (listFromStr text) '())))
+        ((atom text) (listToStr (slogSplitWord (listFromStr text))))
         (T (mapcar 'slogSplitText text))
     )
 )
@@ -242,11 +259,21 @@ lab5:
 	)
 )
 
+(defun spletnya(words keyWord)
+    (cond
+		((null words) '())
+		((null (cdr words)) (swapSlogs (car words) keyWord))
+		(T
+			(append (swapSlogs (car words) keyWord) (spletnya (cdr words) keyWord))
+		)
+	)
+)
+
 (terpri)
 (write-string "Task three ")
 (terpri)
-(write-string "Input здравствуйте")
+(write-string "Input (слово мама папа) сплетня")
 (terpri)
 (write-string "Result ")
-(write (swapSlogs 'слово 'сплетня))
+(write (spletnya '(слово мама папа) 'сплетня))
 (terpri)
