@@ -140,10 +140,6 @@ lab5:
 #| Конец вспомогательных функций |#
 
 #| Задача 1 |#
-(defun algh (find temp word)
-    (if (string= find word) temp word)
-)
-
 (defun wrap (str)
     (mapcar (lambda (word) (if (string= 'book word) (listToStr '(cd)) (listToStr (list word)))) str)
 )
