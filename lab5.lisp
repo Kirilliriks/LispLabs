@@ -181,6 +181,7 @@ lab5:
         )
         (cond
             ((null word) result)
+            ((and (null nextNextNextChar) (null result)) word)
             ((and (not (null nextNextChar)) (isGlas nextChar) (isSoglas nextNextChar) (isSoglas nextNextNextChar))
                 (slogSplitWord (cdr (cdr (cdr (cdr word)))) (append result (list startChar nextChar nextNextChar '- nextNextNextChar)))
             )
@@ -192,13 +193,20 @@ lab5:
     )
 )
 
+(defun slogSplitText (text)
+    (cond
+        ((atom text) (listToStr (slogSplitWord (listFromStr text) '())))
+        (T (mapcar 'slogSplitText text))
+    )
+)
+
 (terpri)
 (write-string "Task two ")
 (terpri)
-(write-string "Input здравствуйте")
+(write-string "Input здравствуйте как ваши дела уважаемый это строка для проверки слогов")
 (terpri)
 (write-string "Result ")
-(write (listToStr (slogSplitWord (listFromStr 'здравствуйте) '())))
+(write (slogSplitText '(здравствуйте как ваши дела уважаемый это строка для проверки слогов)))
 (terpri)
 
 
